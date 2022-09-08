@@ -3,8 +3,10 @@
 
 #define TAM 3
 
+//variaveis globais
 int vet[TAM][TAM];
 
+//funcoes
 void clear(void);
 void inputQuadrado(int vet[TAM][TAM]);
 int validaQuadrado(int vet[TAM][TAM]);
@@ -16,17 +18,18 @@ int main(void){
 	aux = validaQuadrado(&vet[TAM][TAM]);
 	switch(aux){
 		case 1:
-			printf("A matriz apresentada eh um quadrado magico");
+			printf("A matriz apresentada eh um quadrado magico\n");
 		break;
 		default:
-			printf("A matriz apresentada nao eh um quadrado magico");
+			printf("A matriz apresentada nao eh um quadrado magico\n");
 	}
+	return 0;
 }
 void clear(void){
 	#ifdef __linux__
 		system("clear");
 
-	#elif 
+	#elif _WIN32
 		system("cls");
 	#endif
 }
@@ -51,21 +54,20 @@ void inputQuadrado(int vet[TAM][TAM]){
 	}
 }
 int validaQuadrado(int vet[TAM][TAM]){
-	int i,a,dp,ds,lin[TAM],col[TAM];
-	dp=0;
+	int i,a,dp=0,ds=0,lin[TAM],col[TAM];
  for(i=0;i<TAM;i++){
  	lin[i] = 0;
- 	col[i]=0;
+ 	col[i] = 0;
  	for(a=0;a<TAM;a++){
- 		lin[i] = lin[i] + vet[i][a]; // realiza a soma dos elementos de cada linha
+ 		lin[i] += vet[i][a]; // realiza a soma dos elementos de cada linha
  		
- 		col[i] = col[i] + vet[a][i]; // realiza a coma dos elementos de cada coluna
+ 		col[i] += vet[a][i]; // realiza a coma dos elementos de cada coluna
  	}
- 	dp = dp + vet[i][i]; // realiza a soma dos elementos da diagonal principal
+ 	dp += vet[i][i]; // realiza a soma dos elementos da diagonal principal
 }
- a = 0; ds =0;
+a=0;
  for(i=TAM-1;i>=0; i--){
- 	ds = ds + vet[i][a]; // soma elementos da diagonal secundaria
+ 	ds += vet[i][a]; // soma elementos da diagonal secundaria
  	a++;
 } 
  switch(dp != ds){ // compara diagonais
@@ -73,12 +75,10 @@ int validaQuadrado(int vet[TAM][TAM]){
  		return 0;
  	break;
  	default: // diagonais sao iguais
+ 		a = 1;
  		 for(i=0;i<TAM;i++){
  			if(lin[i] != dp || col[i] != dp){ // compara diagonal com a soma decada linha e a soma de cada coluna
  				return 0;
- 			}
- 			else{ // ds, 
- 				a = 1;
  			}
  		}
  		if(a==1){ return 1;}
